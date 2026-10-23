@@ -1,4 +1,4 @@
-# Agent Guidelines for aip-pratice
+# Agent Guidelines for react-template
 
 This document provides essential information for AI coding agents working in this React + TypeScript + Vite codebase.
 
@@ -7,7 +7,7 @@ This document provides essential information for AI coding agents working in thi
 ### Development
 
 ```bash
-pnpm dev              # Start dev server (http://localhost:5173)
+pnpm dev              # Start dev server (http://127.0.0.1:5173)
 pnpm build            # Type check + production build
 pnpm preview          # Preview production build
 ```
@@ -39,6 +39,8 @@ pnpm run test:run -t "renders heading"         # By test name (run once)
 
 ```bash
 pnpm run lint         # Check code with ESLint
+pnpm run typecheck    # Check app, tests, and build configuration types
+pnpm run check        # Run the full CI validation
 pnpm run format       # Format code with Prettier
 pnpm run format:check # Check if code is formatted
 ```
@@ -301,7 +303,7 @@ const buttonVariants = cva("base-classes", {
 ## Notes
 
 - **Package manager:** pnpm (NEVER use npm or yarn)
-- **Node version:** Modern ES2020+; target is ESNext via Vite.
+- **Runtime:** Node 24.22.1 (`.node-version`) and pnpm 12.15.0 (`packageManager`).
 - **Module system:** ES modules with Vite bundler.
 - **CSS:** Tailwind CSS v4 configured through Vite plugin.
 - **Path alias:** `@/` points to `src/`.
@@ -322,7 +324,7 @@ Before marking any task complete:
 ## Notes
 
 - **Package manager**: pnpm (NEVER use npm or yarn)
-- **Node version**: Uses modern ES2020+ features
+- **Node version**: 24.22.1; use the pinned pnpm 12.15.0
 - **Module system**: ESNext with bundler resolution
 - **CSS**: Tailwind v4 via Vite plugin
 - **Path alias**: `@/` maps to `src/`
