@@ -1,5 +1,5 @@
-import "@testing-library/jest-dom/vitest";
-import { afterEach } from "vitest";
-import { cleanup } from "@testing-library/react";
+import "vitest-browser-react";
+import { configure } from "vitest-browser-react/pure";
+import "./src/globals.css";
 
-afterEach(cleanup);
+configure({ reactStrictMode: true });

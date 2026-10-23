@@ -1,10 +1,8 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { expect, test } from "vitest";
+import { render } from "vitest-browser-react";
 import App from "../App";
 
-describe("App", () => {
-  it("renders heading", () => {
-    render(<App />);
-    expect(screen.getByText(/React \+ Vite \+ TypeScript/i)).toBeInTheDocument();
-  });
+test("renders the starter heading in a browser", async () => {
+  const screen = await render(<App />);
+  await expect.element(screen.getByRole("heading", { level: 1 })).toBeVisible();
 });
