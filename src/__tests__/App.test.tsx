@@ -22,3 +22,16 @@ test("opens a labelled dialog, accepts input and restores focus after Escape", a
   await expect.element(dialog).not.toBeInTheDocument();
   await expect.element(trigger).toHaveFocus();
 });
+
+test("switches between light and dark appearance", async () => {
+  document.documentElement.classList.remove("dark");
+  const screen = await render(<App />);
+  const main = screen.getByRole("main");
+  const lightBackground = getComputedStyle(main.element()).backgroundColor;
+  await screen.getByRole("button", { name: "Switch to dark theme" }).click();
+  await expect.element(screen.getByRole("button", { name: "Switch to light theme" })).toBeVisible();
+  expect(getComputedStyle(main.element()).backgroundColor).not.toBe(lightBackground);
+  await screen.getByRole("button", { name: "Switch to light theme" }).click();
+  await expect.element(screen.getByRole("button", { name: "Switch to dark theme" })).toBeVisible();
+  expect(getComputedStyle(main.element()).backgroundColor).toBe(lightBackground);
+});

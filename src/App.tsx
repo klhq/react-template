@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -11,6 +12,12 @@ import {
 import { Input } from "@/components/ui/input";
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [isDark]);
+
   return (
     <main className="flex min-h-svh items-center justify-center bg-background px-6 py-12 text-foreground">
       <Card className="w-full max-w-lg">
@@ -22,6 +29,13 @@ function App() {
         </CardHeader>
         <CardContent className="flex flex-col items-start gap-4">
           <p>React, TypeScript and accessible components. Start building in src/App.tsx.</p>
+          <Button
+            variant="outline"
+            aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+            onClick={() => setIsDark((current) => !current)}
+          >
+            {isDark ? "Light theme" : "Dark theme"}
+          </Button>
           <Dialog>
             <DialogTrigger render={<Button />}>Try the dialog</DialogTrigger>
             <DialogContent>
