@@ -10,6 +10,16 @@ export default mergeConfig(
       projects: [
         { test: { name: "unit", environment: "node", include: ["src/**/*.test.ts"] } },
         {
+          optimizeDeps: {
+            include: [
+              "@base-ui/react/button",
+              "@base-ui/react/dialog",
+              "@base-ui/react/input",
+              "class-variance-authority",
+              "cn",
+              "lucide-react",
+            ],
+          },
           test: {
             name: "browser",
             include: ["src/**/*.test.tsx"],

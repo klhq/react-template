@@ -38,3 +38,11 @@ Frozen install, peer check, deliberate lint probes, formatting idempotence, Node
 ## Compatibility decision
 
 The published jsx-a11y ESLint plugin excludes ESLint 10. ESLint 9 is EOL. Keep ESLint 10 for typed/React/test rules and use Oxlint only for explicitly listed JSX accessibility rules, without duplicate correctness or type-aware engines.
+
+## Validation notes
+
+The initial dialog and theme tests failed because their controls were absent, then passed after implementation. TypeScript ESLint probes reject unsafe assignment and floating promises. An Oxlint probe revealed that control-has-associated-label ignores native inputs by default; ignoreElements is now empty and a missing-label text input fails lint. Browser dependencies are prebundled explicitly so first-run optimization does not reload tests mid-execution.
+
+The first full component/unit coverage run passed 4 tests with 86.66% lines and 67.85% branches. This measures the included example and wrappers, not application completeness. E2E review checks the actual axe result instead of merely calling the analyzer.
+
+Final E2E checks pass for home accessibility, dialog input/Escape/focus/accessibility, and theme switching. A cold dependency-cache run passes all 4 unit/component tests. The browser binary is installed locally, CI includes its system dependencies, and actionlint accepts the workflow. Dependency audit reports zero advisories and frozen installation passes.

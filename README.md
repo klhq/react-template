@@ -1,40 +1,55 @@
-# React Interview Template
+# React Template
 
-A small React + TypeScript app for live coding. Vite serves the app, Tailwind handles styling, and Vitest with React Testing Library tests component behavior in jsdom. The starter contains one heading test.
+A React + TypeScript SPA foundation with Vite, Tailwind v4 and shadcn components backed by Base UI. Tests cover pure logic, browser components and the built application.
 
 ## Start
 
-Use Node.js **24.22.1** (recorded in `.node-version`) and pnpm **12.15.0** (recorded in `package.json`). Switch Node with your version manager and install the pinned pnpm version before continuing.
+Use Node.js **24.22.1** from .node-version and pnpm **12.15.0** from package.json. Switch to these versions with your version manager before installing.
 
 ```bash
 pnpm install --frozen-lockfile
+pnpm run browsers:install
 pnpm dev
 ```
 
-Open the URL printed by Vite, normally <http://127.0.0.1:5173>. Development and preview servers bind to the local machine by default.
+Open the URL printed by Vite, normally <http://127.0.0.1:5173>. The included example demonstrates semantic theme colors, a dialog and a labelled input. Replace src/App.tsx with your application as it grows.
 
 ## Commands
 
-| Command                                        | Purpose                                                              |
-| ---------------------------------------------- | -------------------------------------------------------------------- |
-| `pnpm dev`                                     | Start the development server                                         |
-| `pnpm test`                                    | Watch tests while editing                                            |
-| `pnpm run test:run`                            | Run tests once                                                       |
-| `pnpm run test:run src/__tests__/App.test.tsx` | Run one test file                                                    |
-| `pnpm run test:ui`                             | Open the Vitest test interface                                       |
-| `pnpm run test:coverage`                       | Run tests and write HTML/LCOV coverage to `coverage/`                |
-| `pnpm run typecheck`                           | Check application, test, and build configuration types               |
-| `pnpm run lint`                                | Check ESLint rules                                                   |
-| `pnpm run format`                              | Format supported project files                                       |
-| `pnpm run format:check`                        | Check formatting without changing files                              |
-| `pnpm build`                                   | Check types and build to `dist/`                                     |
-| `pnpm preview`                                 | Serve the production build locally                                   |
-| `pnpm run check`                               | Check peers, lint, formatting, coverage, types, and production build |
+| Command                | Purpose                                              |
+| ---------------------- | ---------------------------------------------------- |
+| pnpm dev               | Start the development server                         |
+| pnpm test              | Watch both Vitest projects                           |
+| pnpm run test:unit     | Run Node logic tests                                 |
+| pnpm run test:browser  | Run React component tests in headless Chromium       |
+| pnpm run test:run      | Run both projects once                               |
+| pnpm run test:ui       | Open Vitest UI                                       |
+| pnpm run test:coverage | Write combined coverage to coverage/                 |
+| pnpm run typecheck     | Check application, tests and configuration types     |
+| pnpm run lint          | Run typed ESLint and scoped JSX accessibility lint   |
+| pnpm run format        | Format project files and Tailwind classes            |
+| pnpm run format:check  | Check formatting                                     |
+| pnpm build             | Typecheck and build to dist/                         |
+| pnpm preview           | Serve dist/ locally                                  |
+| pnpm run test:e2e      | Test the existing production build with Playwright   |
+| pnpm run test:e2e:ui   | Open the Playwright test interface                   |
+| pnpm run check         | Run peers, lint, formatting, coverage, build and E2E |
+| pnpm run ui:add dialog | Add a component using the pinned shadcn CLI          |
 
-CI uses the same pinned runtime and `pnpm run check`. Test commands import Vitest APIs explicitly. DOM matchers and cleanup are configured in `vitest.setup.ts`.
+Run a single browser test with pnpm run test:browser src/**tests**/App.test.tsx. Add -t "test name" to filter by behavior. E2E tests require pnpm build first; pnpm run check includes that step.
 
-## Working on a question
+Chromium downloads are separate from package installation. In Linux CI, install its system dependencies with pnpm exec playwright install --with-deps chromium. GitHub Actions does this before validation and uploads browser diagnostics on failure. Playwright uses a dedicated production preview on port 4173; that port must be free.
 
-Start in `src/App.tsx`; global styles are in `src/globals.css`. The `@/` import alias points to `src/`. Add behavior tests under `src/__tests__/` as the question develops. There is no routing or backend framework to configure.
+## Structure and choices
 
-React and Testing Library remain the core stack. Vite 8 supplies its Rolldown/Oxc build pipeline, so this template does not need a separate bundler or compiler setup. TypeScript stays on 6.0 because the installed typescript-eslint version supports versions below 6.1; upgrading to TypeScript 7 would currently exceed that supported range. Vitest, its UI, and its coverage provider use matching exact versions.
+- src/components/ui contains editable shadcn/Base UI components. components.json records the base-nova preset.
+- src/globals.css defines Tailwind v4 semantic tokens and light/dark palettes. Fonts are self-hosted through Fontsource.
+- src/lib/utils.ts re-exports the cn helper selected by the current shadcn registry.
+- src/**/\*.test.ts runs in Node. src/**/*.test.tsx runs through Vitest Browser Mode and Playwright. Components use real browser DOM, events and CSS.
+- tests/e2e checks the built application. Traces and screenshots remain in test-results/ on failure; playwright-report/ contains the HTML report.
+
+ESLint uses TypeScript project-service analysis and upstream React Hooks rules. The published eslint-plugin-jsx-a11y release does not declare ESLint 10 support, while ESLint 9 is EOL. Oxlint therefore handles only the explicitly configured JSX accessibility rules. The engines do not duplicate typed linting. See [tooling decisions](docs/tooling.md).
+
+Prettier uses the official Tailwind plugin with the CSS entry and cn/clsx/cva support. TypeScript stays on 6.0 because typescript-eslint currently supports versions below 6.1. Vitest, its browser provider, UI and coverage package have matching exact versions.
+
+The template leaves routing, API clients, authentication and forms frameworks to the application. Add them when you can provide a working example and tests for their behavior.
