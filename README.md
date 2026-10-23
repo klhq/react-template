@@ -4,7 +4,7 @@ A React + TypeScript SPA foundation with Vite, Tailwind v4 and shadcn components
 
 ## Start
 
-Use Node.js **24.22.1** from .node-version and pnpm **12.15.0** from package.json. Switch to these versions with your version manager before installing.
+Use Node.js **26.12.1** from .node-version and pnpm **12.15.0** from package.json. Switch to these versions with your version manager before installing.
 
 ```bash
 pnpm install --frozen-lockfile

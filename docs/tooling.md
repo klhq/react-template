@@ -27,3 +27,9 @@ Use the shadcn base-nova preset with Base UI primitives, Tailwind semantic token
 Mantine is a good alternative for a complete styled library. Material UI suits a Material Design requirement. React Aria offers a strong accessibility and internationalization foundation. They use different styling and maintenance models; the current template chooses source ownership and Tailwind customization.
 
 Sources: [shadcn Base UI default](https://ui.shadcn.com/docs/changelog/2026-07-base-ui-default), [Base UI](https://base-ui.com/react/overview/about), [Mantine](https://mantine.dev/guides/vite/), [Material UI](https://mui.com/material-ui/getting-started/), [React Aria](https://react-aria.adobe.com/quality).
+
+## Node runtime
+
+The template pins Node 26.12.1 with matching Node 26 types. On 2026-10-24, Node 26 is Current and its scheduled LTS transition is 2026-10-28. This template adopts it for its build/test toolchain after validating the full pipeline. The host's default Node version remains unchanged; fnm can select the project version from .node-version. CI reads the same file.
+
+Sources: [Node releases](https://nodejs.org/en/about/previous-releases), [release schedule](https://github.com/nodejs/Release/blob/main/schedule.json).

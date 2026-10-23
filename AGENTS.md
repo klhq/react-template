@@ -1,6 +1,6 @@
 # React template guidelines
 
-This is a general-purpose React SPA template. Use pnpm 12.15.0 and Node 24.22.1, as recorded in package.json and .node-version.
+This is a general-purpose React SPA template. Use pnpm 12.15.0 and Node 26.12.1, as recorded in package.json and .node-version.
 
 ## Commands
 
