@@ -2,7 +2,8 @@ node_modules
 dist
 build
 coverage
-*.config.js
-*.config.ts
 package-lock.json
 pnpm-lock.yaml
+
+
+.vitest/

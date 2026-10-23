@@ -1,18 +1,44 @@
-import { defineConfig } from "vitest/config";
-import react from "@vitejs/plugin-react";
-import path from "path";
+import { defineConfig, mergeConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
+import viteConfig from "./vite.config.ts";
 
-export default defineConfig({
-  plugins: [react()],
-  test: {
-    environment: "jsdom",
-    setupFiles: ["./vitest.setup.ts"],
-    globals: true,
-    css: true,
-  },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      globals: false,
+      projects: [
+        { test: { name: "unit", environment: "node", include: ["src/**/*.test.ts"] } },
+        {
+          optimizeDeps: {
+            include: [
+              "@base-ui/react/button",
+              "@base-ui/react/dialog",
+              "@base-ui/react/input",
+              "class-variance-authority",
+              "cn",
+              "lucide-react",
+            ],
+          },
+          test: {
+            name: "browser",
+            include: ["src/**/*.test.tsx"],
+            setupFiles: ["./vitest.setup.ts"],
+            browser: {
+              enabled: true,
+              provider: playwright(),
+              headless: true,
+              instances: [{ browser: "chromium" }],
+            },
+          },
+        },
+      ],
+      coverage: {
+        provider: "v8",
+        include: ["src/**/*.{ts,tsx}"],
+        exclude: ["src/main.tsx", "src/**/*.d.ts", "src/**/__tests__/**"],
+        reporter: ["text", "html", "lcov"],
+      },
     },
-  },
-});
+  })
+);

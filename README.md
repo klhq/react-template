@@ -1,83 +1,56 @@
-# React Development Environment
+# React Template
 
-Modern React application with TypeScript, Vite, and comprehensive testing setup.
+A React + TypeScript SPA foundation with Vite, Tailwind v4 and shadcn components backed by Base UI. Automated tests cover pure logic and browser components. AI-assisted browser checks handle application workflows on demand.
 
-## Setup Complete ✅
+## Start
 
-- ✅ React + TypeScript
-- ✅ Vite (blazing fast dev server)
-- ✅ Vitest (reliable testing with jsdom)
-- ✅ React Testing Library
-- ✅ Tailwind CSS
-- ✅ Prettier with Tailwind plugin
-- ✅ ESLint + Prettier integration (zero conflicts!)
-- ✅ pnpm (fast, efficient package manager)
-
-## Available Scripts
+Use Node.js **26.12.1** from .node-version and pnpm **12.15.0** from package.json. Switch to these versions with your version manager before installing.
 
 ```bash
-pnpm dev              # Start dev server
-pnpm build            # Build for production
-pnpm preview          # Preview production build
-pnpm test             # Run tests in watch mode
-pnpm run test:run     # Run tests once
-pnpm run test:ui      # Open Vitest UI
-pnpm run test:coverage # Run tests with coverage
-pnpm run format       # Format code with Prettier
-pnpm run format:check # Check formatting
-pnpm run lint         # Run ESLint
+pnpm install --frozen-lockfile
+pnpm run browsers:install
+pnpm dev
 ```
 
-## Quick Start
+Open the URL printed by Vite, normally <http://127.0.0.1:5173>. The included example demonstrates semantic theme colors, a dialog and a labelled input. Replace src/App.tsx with your application as it grows.
 
-1. Start development server:
-   ```bash
-   pnpm dev
-   ```
+## Commands
 
-2. Open [http://localhost:5173](http://localhost:5173)
+| Command                | Purpose                                            |
+| ---------------------- | -------------------------------------------------- |
+| pnpm dev               | Start the development server                       |
+| pnpm test              | Watch both Vitest projects                         |
+| pnpm run test:unit     | Run Node logic tests                               |
+| pnpm run test:browser  | Run React component tests in headless Chromium     |
+| pnpm run test:run      | Run both projects once                             |
+| pnpm run test:ui       | Open Vitest UI                                     |
+| pnpm run test:coverage | Write combined coverage to coverage/               |
+| pnpm run typecheck     | Check application, tests and configuration types   |
+| pnpm run lint          | Run typed ESLint and scoped JSX accessibility lint |
+| pnpm run format        | Format project files and Tailwind classes          |
+| pnpm run format:check  | Check formatting                                   |
+| pnpm build             | Typecheck and build to dist/                       |
+| pnpm preview           | Serve dist/ locally                                |
+| pnpm run check         | Run peers, lint, formatting, coverage and build    |
+| pnpm run ui:add dialog | Add a component using the pinned shadcn CLI        |
 
-3. Run tests:
-   ```bash
-   pnpm test
-   ```
+Run a single browser test with `pnpm run test:browser src/__tests__/App.test.tsx`. Add `-t "test name"` to filter by behavior.
 
-## Project Structure
+Chromium downloads are separate from package installation. In Linux CI, install its system dependencies with pnpm exec playwright install --with-deps chromium. GitHub Actions does this before validation and uploads browser diagnostics on failure.
 
-```
-src/
-├── __tests__/
-│   └── App.test.tsx
-├── App.tsx
-└── main.tsx
-```
+## Structure and choices
 
-## Testing
+- src/components/ui contains editable shadcn/Base UI components. components.json records the base-nova preset.
+- src/globals.css defines Tailwind v4 semantic tokens and light/dark palettes. Fonts are self-hosted through Fontsource.
+- src/lib/utils.ts re-exports the cn helper selected by the current shadcn registry.
+- `src/**/*.test.ts` runs in Node. `src/**/*.test.tsx` runs through Vitest Browser Mode and Playwright. Components use real browser DOM, events and CSS.
 
-Tests use Vitest with jsdom for reliable DOM testing.
+ESLint uses TypeScript project-service analysis and upstream React Hooks rules. The published eslint-plugin-jsx-a11y release does not declare ESLint 10 support, while ESLint 9 is EOL. Oxlint therefore handles only the explicitly configured JSX accessibility rules. The engines do not duplicate typed linting. See [tooling decisions](docs/tooling.md).
 
-### Running Tests
+Prettier uses the official Tailwind plugin with the CSS entry and cn/clsx/cva support. TypeScript stays on 6.0 because typescript-eslint currently supports versions below 6.1. Vitest, its browser provider, UI and coverage package have matching exact versions.
 
-```bash
-# Watch mode (recommended for development)
-pnpm test
+The template leaves routing, API clients, authentication and forms frameworks to the application. Add them when you can provide a working example and tests for their behavior.
 
-# Run once
-pnpm run test:run
+## Application workflow checks
 
-# With UI
-pnpm run test:ui
-
-# With coverage
-pnpm run test:coverage
-```
-
-## Ready to go!
-
-Your development environment includes:
-- Fast iteration (Vite)
-- Efficient package management (pnpm)
-- Reliable testing (Vitest + jsdom)
-- Type safety (TypeScript)
-- Modern styling (Tailwind)
-- Code quality (ESLint + Prettier)
+Use AI browser tools to exercise application workflows when needed. The template keeps no standalone E2E specs or Playwright Test runner. The `playwright` package remains installed to launch Chromium for Vitest component tests; `pnpm run check` runs these tests and builds the application.
