@@ -32,3 +32,5 @@ coverage
 # Browser test reports
 playwright-report/
 test-results/
+
+.vitest/
