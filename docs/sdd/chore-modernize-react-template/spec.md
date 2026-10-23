@@ -6,7 +6,7 @@ Provide a reusable React SPA template with browser-accurate tests, typed lint, a
 
 ## Scope
 
-Implement the tooling research accepted by the user: Vitest Node and browser projects, Playwright E2E, ESLint typed lint and Oxlint-scoped JSX accessibility rules, Prettier Tailwind v4 configuration, and shadcn components backed by Base UI. Preserve the preceding dependency upgrade.
+Implement the tooling research accepted by the user: Vitest Node and browser projects, on-demand AI browser workflow checks, ESLint typed lint and Oxlint-scoped JSX accessibility rules, Prettier Tailwind v4 configuration, and shadcn components backed by Base UI. Preserve the preceding dependency upgrade.
 
 ## Acceptance Criteria
 
@@ -14,9 +14,9 @@ Implement the tooling research accepted by the user: Vitest Node and browser pro
 - Node unit tests and browser component tests run as separate Vitest projects, with coverage reports.
 - The starter uses a themed Card, Button, Input and Dialog from the selected UI foundation. A user can open the dialog, edit its labelled input, and dismiss it with Escape; focus returns to its trigger.
 - Light and dark semantic tokens apply to the starter. The theme control changes the active appearance with an accessible name.
-- Typed lint rejects unhandled promises and unsafe assignments. JSX lint rejects missing input labels. Test-specific lint checks apply to Vitest and E2E files.
+- Typed lint rejects unhandled promises and unsafe assignments. JSX lint rejects missing input labels. Test-specific lint checks apply to Vitest files.
 - Prettier uses the Tailwind v4 CSS entry and sorts cn/clsx/cva class strings. Reformatting is idempotent.
-- Playwright verifies the built application through a browser and reports diagnostics on failure. CI installs the browser and runs the same checks.
+- Playwright drives Vitest browser component tests. CI installs Chromium and runs unit/component tests and a production build; AI browser tools handle application workflow verification on demand.
 - README and AGENTS explain the general template, commands, test boundaries, UI additions and supported runtime accurately.
 
 ## Out of Scope
@@ -29,11 +29,11 @@ Routing, backend integration, authentication, server-state libraries and forms f
 2. Configure the supported dependencies, test projects and typed lint; initialize UI foundations.
 3. Drive the dialog interaction with a failing browser test, then implement the minimal starter demonstration.
 4. Drive theme switching with a failing browser test, then implement the control.
-5. Add E2E verification, CI, documentation and final validation.
+5. Configure CI, documentation and final validation.
 
 ## Verification
 
-Frozen install, peer check, deliberate lint probes, formatting idempotence, Node and browser tests with coverage, typecheck, production build, Playwright E2E, actionlint and dependency audit.
+Frozen install, peer check, deliberate lint probes, formatting idempotence, Node and browser tests with coverage, typecheck, production build, actionlint and dependency audit.
 
 ## Compatibility decision
 
@@ -43,6 +43,10 @@ The published jsx-a11y ESLint plugin excludes ESLint 10. ESLint 9 is EOL. Keep E
 
 The initial dialog and theme tests failed because their controls were absent, then passed after implementation. TypeScript ESLint probes reject unsafe assignment and floating promises. An Oxlint probe revealed that control-has-associated-label ignores native inputs by default; ignoreElements is now empty and a missing-label text input fails lint. Browser dependencies are prebundled explicitly so first-run optimization does not reload tests mid-execution.
 
-The first full component/unit coverage run passed 4 tests with 86.66% lines and 67.85% branches. This measures the included example and wrappers, not application completeness. E2E review checks the actual axe result instead of merely calling the analyzer.
+The first full component/unit coverage run passed 4 tests with 86.66% lines and 67.85% branches. This measures the included example and wrappers, not application completeness.
 
-Final E2E checks pass for home accessibility, dialog input/Escape/focus/accessibility, and theme switching. A cold dependency-cache run passes all 4 unit/component tests. The browser binary is installed locally, CI includes its system dependencies, and actionlint accepts the workflow. Dependency audit reports zero advisories and frozen installation passes.
+A cold dependency-cache run passes all 4 unit/component tests. The browser binary is installed locally, CI includes its system dependencies, and actionlint accepts the workflow. Dependency audit reports zero advisories and frozen installation passes.
+
+## User-directed scope correction
+
+The user requested AI-driven end-to-end workflow checks instead of maintaining Playwright E2E scripts. Remove standalone E2E specs, runner/configuration, axe integration and E2E lint/CI wiring. Keep the Playwright browser driver, Chromium installation and the four existing Vitest unit/component tests.

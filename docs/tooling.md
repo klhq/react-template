@@ -4,11 +4,11 @@ Reviewed on 2026-10-24 for a reusable React SPA template.
 
 ## Testing
 
-Use Vitest in Node for pure logic, Vitest Browser Mode for React components, and Playwright Test for application flows. Browser Mode follows Testing Library principles through vitest-browser-react, using real events and browser DOM rather than jsdom simulation. Keep component and E2E tests focused on different contracts.
+Use Vitest in Node for pure logic and Vitest Browser Mode for React components. Use AI browser tools for application workflow checks on demand. Browser Mode follows Testing Library principles through vitest-browser-react, using real events and browser DOM rather than jsdom simulation. Playwright remains the browser driver for Vitest; the template has no separate E2E test runner or maintained E2E specs.
 
 Browser Mode has native ESM mocking constraints. Use the documented vi.mock API when a boundary requires mocking; do not patch sealed module namespaces. Browser binaries must be installed locally and in CI.
 
-Sources: [Vitest component tests](https://vitest.dev/guide/browser/component-testing), [mocking modules](https://vitest.dev/guide/mocking/modules), [Playwright webServer](https://playwright.dev/docs/test-webserver).
+Sources: [Vitest component tests](https://vitest.dev/guide/browser/component-testing), [mocking modules](https://vitest.dev/guide/mocking/modules).
 
 ## Lint and formatting
 

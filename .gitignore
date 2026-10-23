@@ -29,8 +29,5 @@ coverage
 # TypeScript build cache
 *.tsbuildinfo
 
-# Browser test reports
-playwright-report/
-test-results/
 
 .vitest/

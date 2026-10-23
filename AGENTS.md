@@ -5,14 +5,13 @@ This is a general-purpose React SPA template. Use pnpm 12.15.0 and Node 26.12.1,
 ## Commands
 
 - pnpm install --frozen-lockfile: reproduce dependencies.
-- pnpm run browsers:install: install Chromium for component and E2E tests.
+- pnpm run browsers:install: install Chromium for component tests.
 - pnpm dev: serve the application locally.
 - pnpm run test:unit: run pure logic tests in Node.
 - pnpm run test:browser: run React component tests in Chromium.
 - pnpm run test:run: run both Vitest projects once.
 - pnpm run test:coverage: run both projects with coverage.
 - pnpm build: check types and build the application.
-- pnpm run test:e2e: test the existing production build; run pnpm build first.
 - pnpm run check: run the full local and CI validation.
 - pnpm run ui:add <component>: add components with the pinned shadcn CLI.
 
@@ -30,6 +29,6 @@ Prettier owns formatting and Tailwind class order. ESLint owns typed correctness
 
 Place pure logic tests in src/**/\*.test.ts and React tests in src/**/*.test.tsx. Import test and expect from vitest. Browser tests use vitest-browser-react and vitest/browser locators. The setup loads application CSS and enables React Strict Mode. Use await expect.element for browser assertions and real user events; avoid implementation-state or class-name assertions.
 
-Put E2E specs in tests/e2e. Playwright starts the production preview on port 4173 and owns its lifecycle. Use accessible roles and labels, auto-waiting assertions, and isolated browser contexts. Do not reuse a manually running server or add arbitrary sleeps. Failed E2E tests retain traces and screenshots.
+Use available AI browser tools for end-to-end workflow checks on demand. Report the flows exercised and results. The template does not maintain a separate E2E spec suite. Playwright is a driver dependency for Vitest Browser Mode.
 
 Before completing changes, run pnpm run check. For fresh dependencies, also verify frozen installation and pnpm audit. Update README and test examples when changing the template contract.

@@ -5,11 +5,10 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import prettier from "eslint-config-prettier";
 import vitest from "@vitest/eslint-plugin";
-import playwright from "eslint-plugin-playwright";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-  globalIgnores(["dist", "coverage", "playwright-report", "test-results"]),
+  globalIgnores(["dist", "coverage"]),
   {
     files: ["**/*.js"],
     extends: [js.configs.recommended],
@@ -30,6 +29,5 @@ export default defineConfig([
   },
   { files: ["src/components/ui/**"], rules: { "react-refresh/only-export-components": "off" } },
   { files: ["src/**/*.test.{ts,tsx}"], extends: [vitest.configs.recommended] },
-  { files: ["tests/e2e/**/*.ts"], extends: [playwright.configs["flat/recommended"]] },
   prettier,
 ]);
